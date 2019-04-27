@@ -11,13 +11,15 @@ BUCKET_NAME = "prod_seqruns"
 # Project ID is determined by the GCLOUD_PROJECT environment variable
 db = firestore.Client()
 run_name = "RUN_" + str(int(time.time() * 100))
-doc_ref = db.collection(COLLECTION).document(run_name)
+coll = db.collection(COLLECTION)
+doc_ref = coll.document(run_name)
+# Could also reform above as db.document("/".join(COLLECTION, run_name))
 doc_ref.set({
     "bucket": BUCKET_NAME,
     "path": run_name
 })
 
-users_ref = db.collection(COLLECTION)
-docs = users_ref.stream()
+# Debug: Print out all documents in bucket
+docs = coll.stream()
 for doc in docs:
     print("{} => {}".format(doc.id, doc.to_dict()))
