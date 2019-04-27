@@ -1,0 +1,6 @@
+{
+  "gcp": {
+    "project_id": "cloudfunctions-238722",
+    "pubsub_topic": "foreign-languages"
+  }
+}
