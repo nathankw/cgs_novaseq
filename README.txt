@@ -1,5 +1,19 @@
 2019-04-25
 
+Overview:
+
+Create a service account that allows write access to Cloud Firestore and Pub/Sub Admin. For example,
+create a service account and call it pubsub-and-firestore. Then add the following roles to it:
+    - Cloud Firestore Editor
+    - Pub/Sub Editor
+Then create a key in JSON format and download it to the compute node. It will have a default name 
+like cloudfunctions-238722-35192b035c94.json with the GCP project name-ID at the beginning. I recommend
+renaming it by prefixing the key with a term that will easily identify the keys purpose, such as
+the service account's name, i.e.: 
+    mv cloudfunctions-238722-35192b035c94.json pubsub-and-firestore_cloudfunctions-238722-35192b035c94.json
+The compute node running your code should run under this service account and the project in question. 
+to the path of the service account, i.e.:
+
 Follow tutorial at 
 https://cloud.google.com/functions/docs/tutorials/storage#functions-update-install-gcloud-python
 in order to learn cloud functions. 
