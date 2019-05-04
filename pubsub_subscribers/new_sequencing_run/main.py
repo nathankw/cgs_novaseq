@@ -15,37 +15,6 @@ BUCKET_NAME = "prod_seqruns"
 #: GCP Firestore collection
 COLLECTION = "sequencing_runs"
 
-def main():
-    fh = open("conf.json")
-    conf = json.load(fh)
-    GCP_PROJ_ID = conf["gcp"]["project_id"]
-    PUB_SUB_TOPIC = conf["gcp"]["pubsub_topic"]
-    fh.close()
-
-    parser = get_parser()
-    args = parser.parse_args()
-    msg = args.message
-    attr_list = args.attributes
-    attrs = {}
-    if attr_list:
-        for i in attr_list:
-            key, val = i.split("=")
-            attrs[key.strip()] = val.strip()
-
-    batch_settings = pubsub_v1.types.BatchSettings(
-        max_bytes=0,  # kilobytes
-        max_latency=0,  # seconds
-    )
-    publisher = pubsub_v1.PublisherClient(batch_settings)
-    topic_path = publisher.topic_path(GCP_PROJ_ID, PUB_SUB_TOPIC)
-
-    # Data must be a bytestring
-    msg = msg.encode('utf-8')
-    res = publisher.publish(topic_path, msg, **attrs)
-    # res is a google.cloud.pubsub_v1.publisher.futures.Future instance
-
-    print("Published message ID {} to topic {}.".format(res.result(), PUB_SUB_TOPIC))
-
 def launch_demultiplexing(data, context):
     """
     Background Cloud Function to be triggered via Pub/Sub. Expects attributes to be provided by the

@@ -31,7 +31,7 @@ gcloud config list --format='text(core.project)'
 gcloud functions event-types list
 
 # Set default project:
-gcloud config set project cloudfunctions
+gcloud config set project cloudfunctions-238722
 
 # Deploy GCP Function
 gcloud functions deploy hello_gcs_generic --runtime python37 --trigger-resource cloudfunctionstesta --trigger-event google.storage.object.finalize --project cloudfunctions-238722
@@ -45,9 +45,13 @@ gcloud functions deploy http_trigger_hello_gcs_generic --runtime python37 --trig
 # First create a Pub/Sub topic, say foreign-languages. Then deploy function:
 gcloud functions deploy hello_pubsub --runtime python37 --trigger-topic foreign-languages
 # Publish a message on CLI (Or Python API https://cloud.google.com/pubsub/docs/publisher#publish):
-DN527ud3:helloworld nathankw$ gcloud pubsub topics publish foreign-languages --message Nathaniel
+DN527ud3:helloworld nathankw$ gcloud pubsub topics publish foreign-languages --message Nathaniel --attribute name=nom,day=jour
 messageIds:
 - '530523645918731'
+
+# Or can make a Firestore triggered function:
+gcloud functions deploy firestore_launch_demultiplexing --runtime python37 --trigger-resource projects/cloudfunctions-238722/databases/default/documents/sequencing_runs/{runs} --trigger-event providers/cloud.firestore/eventTypes/document.create 
+
 
 Download BaseSpace NovaSeq run. First need to authenticate with BaseSpace
 
