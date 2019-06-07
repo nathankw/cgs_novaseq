@@ -1,0 +1,19 @@
+
+
+# Making an instance for running bcl2fastq2. bcl2fastq2 requires at least 32GB RAM. 
+Since a flowcell for a NovaSeq can result in upto 3TB of data, the instance will need at least that
+much RAM or persistant disk. One option is to create an instance with upto 3TB of local SD (the max).
+That would require attaching 8 devices of local SSD, each of which is 375GB. 
+Here is an example command that a cloud function could call to run the job that tars and uploads
+the run directory to cloud storage:
+
+gcloud compute instances create-with-container img-name
+  --image compute-goldenv2-7
+  --local-ssd
+  --service-account
+  --description "Tar and upload run directory to cloud storage."
+  --labels workflow=sequencer,stage=store_run
+  --network development
+  --network-interface subnet=10.249.16.0/27 
+  --tags no-ip
+  --zone $ZONE

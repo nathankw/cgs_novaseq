@@ -63,3 +63,6 @@ Download
 
 This is a 38 GB run. 
 
+# View permissions associated with a GCP role:
+gcloud iam roles describe roles/storage.objectCreator
+# sequencing-compute@cgsdevelopment-1216.iam.gserviceaccount.com does not have storage.buckets.get access to nathankw-testcgs.

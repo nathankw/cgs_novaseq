@@ -4,6 +4,7 @@ import base64
 import json
 
 from google.cloud import firestore
+import googleapiclient.discovery
 
 ###
 # Nathaniel Watson
@@ -14,6 +15,7 @@ from google.cloud import firestore
 BUCKET_NAME = "prod_seqruns"
 #: GCP Firestore collection
 COLLECTION = "sequencing_runs"
+compute = googleapiclient.discovery.build('compute', 'v1')
 
 def launch_demultiplexing(data, context):
     """
